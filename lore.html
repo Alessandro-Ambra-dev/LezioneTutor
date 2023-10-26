@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1 id="name"></h1>
+    <button onclick="handleLogin()">Login</button>
+  </body>
+
+  <script>
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((res) => res.json())
+      .then((data) => {
+        const existingUsers = data;
+        console.log(existingUsers);
+
+        let user = {
+          id: 1,
+          name: "Leanne Graham",
+          username: "Bret",
+        };
+
+        const htmlName = document.getElementById("name");
+
+        function handleLogin() {
+          const filteredDatabase = existingUsers.filter((el) => {
+            return (
+              el.id === user.id &&
+              el.name === user.name &&
+              el.username === user.username
+            );
+          });
+
+          if (filteredDatabase.length > 0) {
+            htmlName.innerHTML = `ID:${user.id},NAME:${user.name},USERNAME:${user.username}`;
+          } else {
+            alert(`${user.name} does not exist`);
+          }
+        }
+
+        document.querySelector("button").addEventListener("click", handleLogin);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  </script>
+</html>
